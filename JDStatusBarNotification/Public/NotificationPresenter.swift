@@ -28,6 +28,7 @@ public class NotificationPresenter: NSObject {
   var overlayWindow: NotificationWindow?
   var windowScene: UIWindowScene?
   var styleCache = StyleCache()
+  private var notificationQueue: NotificationQueue!
 
   // swiftui-alert-style presentation state
   var activeNotificationId: UUID? = nil
@@ -39,7 +40,10 @@ public class NotificationPresenter: NSObject {
   }
 
   // keep init private to this file
-  private override init() {}
+  private override init() {
+    super.init()
+    notificationQueue = NotificationQueue(presenter: self)
+  }
 }
 
 // MARK: - Core Logic
@@ -131,11 +135,16 @@ extension NotificationPresenter {
                       completion: Completion? = nil) -> UIView
   {
     let style = styleCache.style(forName: styleName)
-    let view = present(title, subtitle: subtitle, style: style, completion: completion)
-    if let duration {
-      dismiss(after: duration)
-    }
-    return view
+    let notification = QueuedNotification(
+        id: UUID(),
+        title: title,
+        subtitle: subtitle,
+        style: style,
+        duration: duration,
+        completion: completion
+    )
+    notificationQueue.enqueue(notification)
+    return statusBarView ?? UIView()
   }
 
   /// Present a notification using an included style.
@@ -157,11 +166,16 @@ extension NotificationPresenter {
                       completion: Completion? = nil) -> UIView
   {
     let style = styleCache.style(forIncludedStyle: includedStyle)
-    let view = present(title, subtitle: subtitle, style: style, completion: completion)
-    if let duration {
-      dismiss(after: duration)
-    }
-    return view
+    let notification = QueuedNotification(
+        id: UUID(),
+        title: title,
+        subtitle: subtitle,
+        style: style,
+        duration: duration,
+        completion: completion
+    )
+    notificationQueue.enqueue(notification)
+    return statusBarView ?? UIView()
   }
 
   /// Present a notification using a custom subview.
@@ -236,9 +250,11 @@ extension NotificationPresenter {
   ///   - completion: A ``Completion`` closure, which gets called once the dismiss animation finishes.
   ///
   public func dismiss(animated: Bool = true, after delay: Double? = nil, completion: Completion? = nil) {
-    overlayWindow?.statusBarViewController.dismiss(withDuration: animated ? 0.4 : 0.0, afterDelay: delay ?? 0.0, completion: {
+    overlayWindow?.statusBarViewController.dismiss(withDuration: animated ? 0.4 : 0.0, afterDelay: delay ?? 0.0) { [weak self] in
+      guard let self = self else { return }
       completion?(self)
-    })
+      self.notificationQueue.notificationDismissed()
+    }
   }
 
   // MARK: - Style Customization

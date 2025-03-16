@@ -201,22 +201,33 @@ extension View {
 
     // present if needed
     if isPresented.wrappedValue && SwiftUINotficationState.notificationId == nil {
+      SwiftUINotficationState.notificationId = UUID()
+      
       if let includedStyle {
-        np.present(title, subtitle: subtitle, includedStyle: includedStyle)
+        np.present(title, subtitle: subtitle, includedStyle: includedStyle) { [id = SwiftUINotficationState.notificationId] presenter in
+          if presenter.activeNotificationId != id {
+            isPresented.wrappedValue = false
+            SwiftUINotficationState.notificationId = nil
+          }
+        }
       } else {
-        np.present(title, subtitle: subtitle, styleName: styleName)
+        np.present(title, subtitle: subtitle, styleName: styleName) { [id = SwiftUINotficationState.notificationId] presenter in
+          if presenter.activeNotificationId != id {
+            isPresented.wrappedValue = false
+            SwiftUINotficationState.notificationId = nil
+          }
+        }
       }
-      trackNotificationState(isPresented: isPresented)
-    }
 
-    // update activity
-    if let isShowingActivity {
-      np.displayActivityIndicator(isShowingActivity.wrappedValue)
-    }
+      // update activity
+      if let isShowingActivity {
+        np.displayActivityIndicator(isShowingActivity.wrappedValue)
+      }
 
-    // update progress bar
-    if let progress {
-      np.displayProgressBar(at: progress.wrappedValue)
+      // update progress bar
+      if let progress {
+        np.displayProgressBar(at: progress.wrappedValue)
+      }
     }
 
     return self
@@ -229,17 +240,17 @@ extension View {
     SwiftUINotficationState.notificationId = np.activeNotificationId
 
     // setup callback to react to other calls replacing this presentation
-    np.didPresentNotificationClosure = {
-      if $0.activeNotificationId != SwiftUINotficationState.notificationId {
+    np.didPresentNotificationClosure = { [id = SwiftUINotficationState.notificationId] presenter in
+      if presenter.activeNotificationId != id {
         isPresented.wrappedValue = false
         SwiftUINotficationState.notificationId = nil
       }
     }
 
     // reset state on dismissal
-    np.didDismissNotificationClosure = {
-      $0.didPresentNotificationClosure = nil
-      $0.didDismissNotificationClosure = nil
+    np.didDismissNotificationClosure = { presenter in
+      presenter.didPresentNotificationClosure = nil
+      presenter.didDismissNotificationClosure = nil
       SwiftUINotficationState.notificationId = nil
       isPresented.wrappedValue = false
     }

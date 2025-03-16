@@ -103,6 +103,8 @@
 		D264F8A11820213200DA0E53 /* SBAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D264F8A01820213200DA0E53 /* SBAppDelegate.m */; };
 		D264F8A31820213200DA0E53 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D264F8A21820213200DA0E53 /* Images.xcassets */; };
 		D264F8C61820219F00DA0E53 /* SBExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D264F8C41820219F00DA0E53 /* SBExampleViewController.m */; };
+		DB8A91C72D86B22100C7F45B /* NotificationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB8A91C62D86B22100C7F45B /* NotificationQueue.swift */; };
+		DB8A91C82D86B22100C7F45B /* NotificationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB8A91C62D86B22100C7F45B /* NotificationQueue.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -250,6 +252,7 @@
 		D264F8A21820213200DA0E53 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D264F8C31820219F00DA0E53 /* SBExampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBExampleViewController.h; sourceTree = "<group>"; };
 		D264F8C41820219F00DA0E53 /* SBExampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBExampleViewController.m; sourceTree = "<group>"; };
+		DB8A91C62D86B22100C7F45B /* NotificationQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationQueue.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -386,6 +389,7 @@
 				28D81AA02B012B0800DE2CDF /* NotificationAnimator.swift */,
 				28D81A9D2B01257A00DE2CDF /* StyleCache.swift */,
 				28D81A932B010C7500DE2CDF /* DiscoveryHelper.swift */,
+				DB8A91C62D86B22100C7F45B /* NotificationQueue.swift */,
 			);
 			path = Private;
 			sourceTree = "<group>";
@@ -746,6 +750,7 @@
 				28D81A9B2B01217100DE2CDF /* NotificationWindow.swift in Sources */,
 				7E2A4E852AE70A4B001F0DB0 /* NotificationPresenter.swift in Sources */,
 				2884CAC12D04DCA5005E00A6 /* NotificationSwiftUIModifer.swift in Sources */,
+				DB8A91C72D86B22100C7F45B /* NotificationQueue.swift in Sources */,
 				28D81AA72B0140C100DE2CDF /* NotificationStyle.swift in Sources */,
 				7E5402C6286708850079C579 /* JDStatusBarNotification.docc in Sources */,
 			);
@@ -799,6 +804,7 @@
 				7EDAEE972AF6EC5E001B6ABE /* NotificationPresenter.swift in Sources */,
 				28D81A952B0110C700DE2CDF /* DiscoveryHelper.swift in Sources */,
 				2884CAC02D04DCA5005E00A6 /* NotificationSwiftUIModifer.swift in Sources */,
+				DB8A91C82D86B22100C7F45B /* NotificationQueue.swift in Sources */,
 				28D81AA82B0140C100DE2CDF /* NotificationStyle.swift in Sources */,
 				7EDAEEA22AF6EC5E001B6ABE /* JDStatusBarNotification.docc in Sources */,
 			);
